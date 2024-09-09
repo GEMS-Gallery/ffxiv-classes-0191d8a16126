@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { backend } from 'declarations/backend';
-import { Box, Card, CardContent, CircularProgress, Container, Grid, IconButton, Typography } from '@mui/material';
+import { AppBar, Box, Card, CardContent, CardMedia, CircularProgress, Container, Grid, IconButton, Toolbar, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 type Class = {
   id: string;
@@ -77,64 +78,72 @@ const App: React.FC = () => {
   }
 
   return (
-    <Container>
-      <Typography variant="h2" component="h1" gutterBottom>
-        Final Fantasy 14 Classes
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Typography variant="h5" gutterBottom>
-            Class List
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <SportsEsportsIcon sx={{ mr: 2 }} />
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Final Fantasy 14 Classes
           </Typography>
-          {classes.map((cls) => (
-            <Card key={cls.id} sx={{ mb: 2, cursor: 'pointer' }} onClick={() => setSelectedClass(cls)}>
-              <CardContent>
-                <Typography variant="h6">{cls.name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {cls.role}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Grid>
-        <Grid item xs={12} md={8}>
-          {selectedClass && (
-            <Card>
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
-                  {selectedClass.name}
-                </Typography>
-                <img
-                  src={selectedClass.image}
+        </Toolbar>
+      </AppBar>
+      <Container sx={{ mt: 4 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Typography variant="h5" gutterBottom>
+              Class List
+            </Typography>
+            {classes.map((cls) => (
+              <Card key={cls.id} sx={{ mb: 2, cursor: 'pointer' }} onClick={() => setSelectedClass(cls)}>
+                <CardContent>
+                  <Typography variant="h6">{cls.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {cls.role}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
+          <Grid item xs={12} md={8}>
+            {selectedClass && (
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={selectedClass.image}
                   alt={selectedClass.name}
-                  style={{ width: '100%', maxHeight: '300px', objectFit: 'cover', marginBottom: '1rem' }}
                 />
-                <Typography variant="h6" gutterBottom>
-                  Role: {selectedClass.role}
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  {selectedClass.description}
-                </Typography>
-                <Box display="flex" alignItems="center">
-                  <IconButton onClick={() => handleLike(selectedClass.id)} color="primary">
-                    <ThumbUpIcon />
-                  </IconButton>
-                  <Typography variant="body2">
-                    {likesDislikes[selectedClass.id] ? likesDislikes[selectedClass.id][0] : 0}
+                <CardContent>
+                  <Typography variant="h4" gutterBottom>
+                    {selectedClass.name}
                   </Typography>
-                  <IconButton onClick={() => handleDislike(selectedClass.id)} color="secondary">
-                    <ThumbDownIcon />
-                  </IconButton>
-                  <Typography variant="body2">
-                    {likesDislikes[selectedClass.id] ? likesDislikes[selectedClass.id][1] : 0}
+                  <Typography variant="h6" gutterBottom>
+                    Role: {selectedClass.role}
                   </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          )}
+                  <Typography variant="body1" paragraph>
+                    {selectedClass.description}
+                  </Typography>
+                  <Box display="flex" alignItems="center">
+                    <IconButton onClick={() => handleLike(selectedClass.id)} color="primary">
+                      <ThumbUpIcon />
+                    </IconButton>
+                    <Typography variant="body2">
+                      {likesDislikes[selectedClass.id] ? likesDislikes[selectedClass.id][0] : 0}
+                    </Typography>
+                    <IconButton onClick={() => handleDislike(selectedClass.id)} color="secondary">
+                      <ThumbDownIcon />
+                    </IconButton>
+                    <Typography variant="body2">
+                      {likesDislikes[selectedClass.id] ? likesDislikes[selectedClass.id][1] : 0}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

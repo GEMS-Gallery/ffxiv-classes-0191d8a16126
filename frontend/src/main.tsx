@@ -11,13 +11,29 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#4a4e69',
+      main: '#6200ea',
     },
     secondary: {
-      main: '#9a8c98',
+      main: '#03dac6',
     },
     background: {
-      default: '#f2e9e4',
+      default: '#f5f5f5',
+      paper: '#ffffff',
+    },
+  },
+  typography: {
+    fontFamily: 'Roboto, Arial, sans-serif',
+    h1: {
+      fontSize: '2.5rem',
+      fontWeight: 500,
+    },
+    h2: {
+      fontSize: '2rem',
+      fontWeight: 500,
+    },
+    h3: {
+      fontSize: '1.75rem',
+      fontWeight: 500,
     },
   },
 });
