@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { backend } from 'declarations/backend';
-import { AppBar, Box, Card, CardContent, CardMedia, CircularProgress, Container, Grid, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Card, CardContent, CardMedia, CircularProgress, Container, Grid, IconButton, Toolbar, Typography, Pagination } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
@@ -18,6 +18,8 @@ const App: React.FC = () => {
   const [selectedClass, setSelectedClass] = useState<Class | null>(null);
   const [loading, setLoading] = useState(true);
   const [likesDislikes, setLikesDislikes] = useState<{ [key: string]: [number, number] }>({});
+  const [page, setPage] = useState(1);
+  const classesPerPage = 6;
 
   useEffect(() => {
     fetchClasses();
@@ -69,6 +71,10 @@ const App: React.FC = () => {
     }
   };
 
+  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -77,13 +83,15 @@ const App: React.FC = () => {
     );
   }
 
+  const paginatedClasses = classes.slice((page - 1) * classesPerPage, page * classesPerPage);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <SportsEsportsIcon sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Final Fantasy 14 Classes
+            Final Fantasy XIV Job Classes
           </Typography>
         </Toolbar>
       </AppBar>
@@ -91,9 +99,9 @@ const App: React.FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <Typography variant="h5" gutterBottom>
-              Class List
+              Job Class List
             </Typography>
-            {classes.map((cls) => (
+            {paginatedClasses.map((cls) => (
               <Card key={cls.id} sx={{ mb: 2, cursor: 'pointer' }} onClick={() => setSelectedClass(cls)}>
                 <CardContent>
                   <Typography variant="h6">{cls.name}</Typography>
@@ -103,6 +111,13 @@ const App: React.FC = () => {
                 </CardContent>
               </Card>
             ))}
+            <Pagination
+              count={Math.ceil(classes.length / classesPerPage)}
+              page={page}
+              onChange={handleChangePage}
+              color="primary"
+              sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}
+            />
           </Grid>
           <Grid item xs={12} md={8}>
             {selectedClass && (
