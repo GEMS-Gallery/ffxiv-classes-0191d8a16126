@@ -1,0 +1,34 @@
+type Result_2 = 
+ variant {
+   err: text;
+   ok: Class;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: record {
+         nat;
+         nat;
+       };
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type Class = 
+ record {
+   description: text;
+   id: text;
+   image: text;
+   name: text;
+   role: text;
+ };
+service : {
+  addClass: (text, text, text, text, text) -> (Result);
+  dislikeClass: (text) -> (Result);
+  getClassDetails: (text) -> (Result_2) query;
+  getClasses: () -> (vec Class) query;
+  getLikesDislikes: (text) -> (Result_1) query;
+  likeClass: (text) -> (Result);
+}
